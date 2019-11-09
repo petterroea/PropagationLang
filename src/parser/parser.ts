@@ -128,7 +128,7 @@ function getOutletNode(token: Token, tokens: Token[], currentImports: {[index: s
 
 	//Is this a direct assignment between two variables?
 	if(rhs.value.indexOf(".") === -1) {
-		return new GenericOutlet(token.value, [rhs.value], new PassthroughEvaluator())
+		return new GenericOutlet(nodeName.value, [rhs.value], new PassthroughEvaluator())
 	}
 
 	//If not, we need to extract the evaluator
@@ -164,7 +164,7 @@ function getOutletNode(token: Token, tokens: Token[], currentImports: {[index: s
 		args.push(argument.value)
 	}
 
-	return new GenericOutlet(token.value, args, currentImports[steps[0]][steps[1]])
+	return new GenericOutlet(nodeName.value, args, currentImports[steps[0]][steps[1]])
 }
 
 

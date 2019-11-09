@@ -57,7 +57,8 @@ import {readModulesFromFile} from "./parser/parser"
 
 let modules = readModulesFromFile("testPrograms/parseTest.ppg")
 
-console.log(`Parsed file and got ${Object.keys(modules).length} module(s)`)
-
 modules["ParseTest"].run()
 
+let adder = readModulesFromFile("testPrograms/binaryAdder.ppg")
+
+adder["BinaryAdderBit"].run()

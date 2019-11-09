@@ -6,6 +6,9 @@
 
 	# We support comments
 	C = Binary.Xor(A B)
+	D = Binary.Nor(A B)
 
-	@output Out = Binary.And(A C)
+	E = Binary.And(A C)
+
+	@output Out = Binary.And(A E)
 @end

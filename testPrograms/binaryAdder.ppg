@@ -1,82 +1,18 @@
-@include Binary
-
+@import Binary
 
 @module BinaryAdderBit
-	@Input(A)
-	@Input(B)
-	@Input(C)
+	@input A
+	@input B 
+	@input C
 
-	ABXor = Binary.Xor(A, B)
-	ABAnd = Binary.And(A, B)
+	ABXor = Binary.Xor(A B)
+	ABAnd = Binary.And(A B)
 
-	ABCXor = Binary.Xor(ABXor, C)
-	ABCAnd = Binary.And(ABAnd, C)
+	ABCXor = Binary.Xor(ABXor C)
+	ABCAnd = Binary.And(ABAnd C)
 
-	CarryOut = Binary.Or(ABCAnd, ABAnd)
+	CarryOut = Binary.Or(ABCAnd ABAnd)
 
-	@Expose(Out, ABCXor)
-	@Expose(Carry, CarryOut)
-@end
-
-@module EightBitAdder
-	@Input(A1)
-	@Input(A2)
-	@Input(A3)
-	@Input(A4)
-	@Input(A5)
-	@Input(A6)
-	@Input(A7)
-	@Input(A8)
-
-	@Input(B1)
-	@Input(B2)
-	@Input(B3)
-	@Input(B4)
-	@Input(B5)
-	@Input(B6)
-	@Input(B7)
-	@Input(B8)
-
-	bit1 = new BinaryAdderBit
-	bit2 = new BinaryAdderBit
-	bit3 = new BinaryAdderBit
-	bit4 = new BinaryAdderBit
-	bit5 = new BinaryAdderBit
-	bit6 = new BinaryAdderBit
-	bit7 = new BinaryAdderBit
-	bit8 = new BinaryAdderBit
-
-	bit1.A = A1
-	bit1.B = B1
-
-	bit2.A = A2
-	bit2.B = B2
-
-	bit3.A = A3
-	bit3.B = B3
-
-	bit4.A = A4
-	bit4.B = B4
-
-	bit5.A = A5
-	bit5.B = B5
-
-	bit6.A = A6
-	bit6.B = B6
-
-	bit7.A = A7
-	bit7.B = B7
-
-	bit8.A = A8
-	bit8.B = B8
-
-	bit2.C = bit1.Carry
-	bit3.C = bit2.Carry
-	bit4.C = bit3.Carry
-	bit5.C = bit4.Carry
-	bit6.C = bit5.Carry
-	bit7.C = bit6.Carry
-	bit8.C = bit7.Carry
-
-	@Expose(Carry, bit8.Carry) 
+	@output Out = ABCXor
+	@output Carry = CarryOut
 @end

@@ -55,6 +55,7 @@ A variable is dirty if its value has changed from last time it was evaluated. Wh
 ## TODO
 
  * The ability to instantiate and use modules in other modules
+ * Record data type
  * Number evaluators
  * List evaluators
  * More evaluators

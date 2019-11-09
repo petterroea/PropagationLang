@@ -1,0 +1,11 @@
+@import Binary
+
+@module ParseTest
+	@input A
+	@input B = true
+
+	# We support comments
+	C = Binary.Xor(A B)
+
+	@output Out = Binary.And(A C)
+@end

@@ -4,6 +4,7 @@ A programming language based on the definition of connections between sources an
 
 ## Example program
 
+### "Hello world"
 ```
 @import Binary # Tell the module which modules of atomic evaluators you want to use
 
@@ -15,6 +16,28 @@ A programming language based on the definition of connections between sources an
 	C = Binary.Xor(A B) # Specifies a connection between C and A,B, where Xor is done on A and B, and the result is stored in C
 
 	@output Out = Binary.And(A C) # This can be read by the outside world.
+@end
+```
+### Binary adder
+
+```
+@import Binary
+
+@module BinaryAdderBit
+	@input A
+	@input B 
+	@input C
+
+	ABXor = Binary.Xor(A B)
+	ABAnd = Binary.And(A B)
+
+	ABCXor = Binary.Xor(ABXor C)
+	ABCAnd = Binary.And(ABAnd C)
+
+	CarryOut = Binary.Or(ABCAnd ABAnd)
+
+	@output Out = ABCXor
+	@output Carry = CarryOut
 @end
 ```
 

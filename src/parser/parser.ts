@@ -1,4 +1,3 @@
-import fs from "fs";
 
 import Log from "../log"
 
@@ -259,9 +258,4 @@ export function readModulesFromString(contents: string) {
 	return modules
 }
 
-export function readModulesFromFile(filename: string) {
-	let contents = fs.readFileSync(filename,'utf8');
-	return readModulesFromString(contents)
-}
-
-
+console.log("Parser loaded")

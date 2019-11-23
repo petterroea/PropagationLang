@@ -14,6 +14,8 @@ export default class DataflowModule {
 
 	public queue: string[] = []
 
+	waitHandle?: NodeJS.Timer
+
 	uniqueCounter: number = 0
 
 	constructor(public name: string) {
@@ -60,6 +62,7 @@ export default class DataflowModule {
 	}
 
 	run() {
+		this.waitHandle = undefined
 		let startTime = new Date().getTime()
 		let iterations = 0;
 
@@ -95,7 +98,7 @@ export default class DataflowModule {
 		Log.i(`Did ${iterations} iterations in ${new Date().getTime() - startTime} ms`)
 		//Schedule a new time to run some things from the queue
 		if(this.queue.length != 0) {
-			setTimeout(this.run.bind(this), WAIT_TIME);
+			this.waitHandle = setTimeout(this.run.bind(this), WAIT_TIME);
 		}
 	}
 
@@ -104,5 +107,11 @@ export default class DataflowModule {
 			return
 		}
 		this.queue.push(variableName)
+	}
+
+	wakeUp() {
+		if(typeof this.waitHandle === "undefined") {
+			this.run()
+		}
 	}
 }

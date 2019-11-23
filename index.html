@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+	<head>
+		<title>PropagationLang</title>
+		<style type="text/css">
+			#toolbox>p {
+				display: inline-block;
+			}
+		</style>
+
+		<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap stuff -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<div class="container">
+			<h1>PropagationLang</h1>
+			<p>PropagationLang is a programming language written to explore a few curiosities gained by taking the programming language course at NTNU. I have always wanted to write my own language, and with the extra knowledge i now have, it was a lot easier to do.</p>
+			<p><a href="https://github.com/petterroea/PropagationLang">Github</a></p>
+			<div class="row">
+				<div class="col">
+					<textarea id="codeInput" cols="80" rows="20">
+@import Binary
+
+# Defines a single bit binary adder, with carry in and out
+@module BinaryAdderBit
+	@input A
+	@input B 
+	@input C
+
+	ABXor = Binary.Xor(A B)
+	ABAnd = Binary.And(A B)
+
+	ABCXor = Binary.Xor(ABXor C)
+	ABCAnd = Binary.And(ABAnd C)
+
+	CarryOut = Binary.Or(ABCAnd ABAnd)
+
+	@output Out = ABCXor
+	@output Carry = CarryOut
+@end
+					</textarea>
+				</div>
+				<div class="col">
+					<h2>Inputs</h2>
+					<div id="inputList">
+						
+					</div>
+					<h2>Outputs</h2>
+					<div id="outputList">
+						
+					</div>
+				</div>
+			</div>
+			<div id="toolbox">
+				<p>Current status: Not running</p>
+				<p>|</p>
+				<button onclick="doParse()">Parse & Run</button>
+			</div>
+			<h1>Api list</h1>
+			<h2>Binary</h2>
+			<ul>
+				<li><code>Xor</code> - Xor's together any number of variables</li>
+				<li><code>Or</code> - And's together any number of variables</li>
+				<li><code>Or</code> - Or's together any number of variables</li>
+			</ul>
+			<p><i>Future libraries TBD</i></p>
+			<h1>How does it work?</h1>
+			<p>The language is inspired by <a href="https://fuseopen.com/docs/fusejs/observable.html">Observable</a>, a relatively seldom used library in JavaScript which was used by Fuse(Now Fuse Open), an old project of my employer. Observable is cool, as it defines a variable using the function that needs to be ran in order to calculate its value, and the value is automatically calculated every time the dependent variable changes. This makes it easy to chain calculations, and removed a lot of the need for events for responding to variable changes. Think of it as a re-usable promise. However, observable isn't flawless. For example, making observables work when the function has multiple dependent variables is difficult, as observable is pretty much made for a single variable change. This language is an "what if?", where i try to fix the issue by introducing <b>atomic operators</b>. Atomic operators are prebuilt functions in the language that takes care of evaluating variables. They can take as many inputs as they want. They are called atomic operators, as they are the most granular operations you can do.</p>
+
+			<p>Just like with observables, this language works by defining relationships between variables. In PropagationLang's case, the atomic operators are used to define the relations. In theory, if the atomic operators were made to be strictly reversable, this language could be relational. However, as the atomic operators are one-way, this is not the case.</p>
+
+
+			<p>The interpreter consists of a <b>variable store</b>, and a <b>dirty queue</b>. The variable store contains objects that map a variable name to its current value, as well as the <b>Atomic operator</b> that is used to evaluate potential new values. Some of the variables in the variable store are inputs or outputs. When execution starts, all inputs are checked for "new content", and are <b>marked as dirty</b> if they have new content of interest to evaluate. Once all inputs are iterated over, the interpreter works through the dirty queue, popping from the queue and re-evaluating variable values until the queue is empty.</p>
+
+			<p>A variable is dirty if one of its dependent variables have a new value, different than last time it was evaluated. When a variable is marked as dirty, it is pushed onto the dirty queue, unless it already is in said queue.</p>
+			<p>Modules are discrete, computable, black-boxed segments. Inputs and outputs are used to expose the interesting parts of them to the outside world. <b>The language does not currently support using modules inside other modules, as it is exam period at the time of writing, and i'd like to study for my exams.</b> The plan is to add this feature long-term</p>
+			<h1>So, what kind of stuff is this good for?</h1>
+			<p>I can imagine simulation of logic being the most straight forward example of its useability. My goal is to write a simple processor for this language. Other possible use-cases is other situations where your program is acting like a factory floor, with few inputs and a lot of processing steps.</p>
+			<h1>Feature list</h1>
+			<ul>
+				<li>Simple binary operators</li>
+				<li>Browser-compatible interpreter(pauses now and then so the browser can do its job)</li>
+				<li>Simple but robust dependency system</li>
+			</ul>
+			<h1>Future goals/TODO</h1>
+			<ul>
+				<li>Recursive modules, the ability to contain a module inside another module. I think i have to better seperate variables and relations, so it is easier to instantiate modules, for this to be feasible.</li>
+				<li>More examples: Advanced logic, raytracer</li>
+			</ul>
+		</div>
+		<script src="./dist/bundle.js"></script>
+		<script type="text/javascript">
+			var exports = {};
+			var uniqueNum = 0;
+			function generateInputs(engine) {
+				for(let inletName in engine.inlets) {
+					console.log(inletName)
+					$("#inputList").append("<span>" + inletName + "<input type='checkbox' id='inlet" + uniqueNum++ + "'/></span>")
+					$("#inlet"+(uniqueNum-1)).on("change", (entity) => {
+						console.log(entity.target.checked)
+
+						engine.inlets[inletName].setValue(entity.target.checked);
+						engine.wakeUp();
+					})
+				}
+			}
+			function generateOutputs(engine) {
+				for(let outletName in engine.outlets) {
+					console.log(outletName)
+					$("#outputList").append("<span id='outletStatus" + uniqueNum++ + "'>" + outletName + ": No value</span>")
+					let v = uniqueNum-1;
+					engine.outlets[outletName].registerEventHandler((newValue) => {
+						$("#outletStatus"+(v)).html(outletName + ": " + newValue);
+					});
+				}
+			}
+			function doParse() {
+				let engine = PropagationLang.ParseCode(codeInput.value)
+				if(Object.keys(engine).length != 1) {
+					alert("This interpreter currently only supports one module")
+				}
+				let mod = engine[Object.keys(engine)[0]];
+				console.log(mod);
+				generateInputs(mod);
+				generateOutputs(mod);
+				mod.run()
+			}
+		</script>
+	</body>
+</html>

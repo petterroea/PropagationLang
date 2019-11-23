@@ -1,5 +1,7 @@
 console.log("Hi");
 
+import fs from "fs";
+
 import DataflowModule from "./engine/dataflowModule"
 import Variable from "./engine/variable"
 
@@ -52,8 +54,13 @@ engine.run()
 
 console.log("Done running")
 */
+import {readModulesFromString} from "./parser/parser"
 
-import {readModulesFromFile} from "./parser/parser"
+function readModulesFromFile(filename: string) {
+	let contents = fs.readFileSync(filename,'utf8');
+	return readModulesFromString(contents)
+}
+
 
 let modules = readModulesFromFile("testPrograms/parseTest.ppg")
 

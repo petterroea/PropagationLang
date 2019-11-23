@@ -109,7 +109,7 @@
 				$("#inputList").html("")
 				for(let inletName in engine.inlets) {
 					console.log(inletName)
-					$("#inputList").append("<span class='inletLabel'>" + inletName + "<input type='checkbox' id='inlet" + uniqueNum++ + "'/></span>")
+					$("#inputList").append("<span class='inletLabel'>" + inletName + "<input type='checkbox' id='inlet" + uniqueNum++ + "' " + (engine.inlets[inletName].value === true ? "checked" : "") + "/></span>")
 					$("#inlet"+(uniqueNum-1)).on("change", (entity) => {
 						console.log(entity.target.checked)
 

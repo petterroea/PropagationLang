@@ -2,6 +2,8 @@
 
 A programming language based on the definition of connections between sources and sinks. Execution happens by propagating changes downstream from the causing inlet, to depending variables. Summed up, it is as if the `Observable` concept in Javascript got its own programming language. To force you to use it, only pre-defined, "Atomic evaluators" can be used to define relations between variables.
 
+Try it: [https://petterroea.com/projects/propagationlang/](https://petterroea.com/projects/propagationlang/)
+
 ## Example program
 
 ### "Hello world"

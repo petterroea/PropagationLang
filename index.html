@@ -130,15 +130,19 @@
 				}
 			}
 			function doParse() {
-				let engine = PropagationLang.ParseCode(codeInput.value)
-				if(Object.keys(engine).length != 1) {
-					alert("This interpreter currently only supports one module")
+				try {
+					let engine = PropagationLang.ParseCode(codeInput.value)
+					if(Object.keys(engine).length != 1) {
+						alert("This interpreter currently only supports one module")
+					}
+					let mod = engine[Object.keys(engine)[0]];
+					console.log(mod);
+					generateInputs(mod);
+					generateOutputs(mod);
+					mod.run()
+				} catch(e) {
+					alert(e)
 				}
-				let mod = engine[Object.keys(engine)[0]];
-				console.log(mod);
-				generateInputs(mod);
-				generateOutputs(mod);
-				mod.run()
 			}
 		</script>
 	</body>

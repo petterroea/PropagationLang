@@ -43,7 +43,7 @@
 	ABAnd = Binary.And(A B)
 
 	ABCXor = Binary.Xor(ABXor C)
-	ABCAnd = Binary.And(ABAnd C)
+	ABCAnd = Binary.And(ABXor C)
 
 	CarryOut = Binary.Or(ABCAnd ABAnd)
 

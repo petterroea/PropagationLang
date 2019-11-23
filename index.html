@@ -6,6 +6,12 @@
 			#toolbox>p {
 				display: inline-block;
 			}
+			.outletLabel {
+				padding: 5px;
+			}
+			.inletLabel {
+				padding: 5px;
+			}
 		</style>
 
 		<meta charset="utf-8">
@@ -103,7 +109,7 @@
 				$("#inputList").html("")
 				for(let inletName in engine.inlets) {
 					console.log(inletName)
-					$("#inputList").append("<span>" + inletName + "<input type='checkbox' id='inlet" + uniqueNum++ + "'/></span>")
+					$("#inputList").append("<span class='inletLabel'>" + inletName + "<input type='checkbox' id='inlet" + uniqueNum++ + "'/></span>")
 					$("#inlet"+(uniqueNum-1)).on("change", (entity) => {
 						console.log(entity.target.checked)
 
@@ -116,7 +122,7 @@
 				$("#outputList").html("")
 				for(let outletName in engine.outlets) {
 					console.log(outletName)
-					$("#outputList").append("<span id='outletStatus" + uniqueNum++ + "'>" + outletName + ": No value</span>")
+					$("#outputList").append("<span class='outletLabel' id='outletStatus" + uniqueNum++ + "'>" + outletName + ": No value</span>")
 					let v = uniqueNum-1;
 					engine.outlets[outletName].registerEventHandler((newValue) => {
 						$("#outletStatus"+(v)).html(outletName + ": " + newValue);
